@@ -134,7 +134,7 @@ $settings['skip_permissions_hardening'] = TRUE;
  * Lando database credentials.
  */
 $databases['default']['default'] = array (
-  'database' => 'database',
+  'database' => 'drupal9',
   'username' => 'drupal9',
   'password' => 'drupal9',
   'host' => 'database',
