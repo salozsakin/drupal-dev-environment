@@ -1,131 +1,94 @@
 {
-    "name": "drupal/drupal",
-    "description": "Drupal is an open source content management platform powering millions of websites and applications.",
+    "name": "localgovdrupal/localgov_microsites_project",
+    "description": "Project template for the LocalGov Drupal Microsites distribution.",
     "type": "project",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/drupal",
-    "support": {
-        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
-        "chat": "https://www.drupal.org/node/314178"
+    "homepage": "https://github.com/localgovdrupal/localgov_microsites_project",
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8",
+            "exclude": ["drupal/domain_group", "drupal/group_content_menu", "drupal/group_term", "drupal/group_permissions"]
+        },
+        "drupal/domain_group": {
+            "type": "vcs",
+            "url": "https://git.drupalcode.org/sandbox/ekes-3278349.git"
+        },
+        "drupal/group_content_menu": {
+            "type": "vcs",
+            "url": "https://git.drupalcode.org/issue/group_content_menu-3315163.git"
+        },
+        "drupal/group_permissions": {
+          "type": "vcs",
+          "url": "https://git.drupalcode.org/project/group_permissions.git"
+        },
+        "drupal/group_term": {
+            "type": "vcs",
+            "url": "https://git.drupalcode.org/issue/group_term-3316529.git"
+        }
     },
     "require": {
-        "composer/installers": "^1.9",
-        "drupal/core": "self.version",
-        "drupal/core-project-message": "self.version",
-        "drupal/core-vendor-hardening": "self.version"
+        "composer/installers": "^1.12",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/core-composer-scaffold": "^9.3",
+        "drupal/core-recommended": "^9.3",
+        "drush/drush": "^10.6",
+        "localgovdrupal/localgov_microsites": "2.x-dev"
     },
     "require-dev": {
-        "behat/mink": "^1.8",
-        "friends-of-behat/mink-browserkit-driver": "^1.4",
-        "behat/mink-selenium2-driver": "^1.4",
-        "composer/composer": "^2.0.2",
-        "drupal/coder": "^8.3.10",
-        "instaclick/php-webdriver": "^1.4.1",
-        "mikey179/vfsstream": "^1.6.8",
-        "phpunit/phpunit": "^8.5.14 || ^9",
-        "phpspec/prophecy": "^1.12",
-        "symfony/css-selector": "^4.4",
-        "symfony/phpunit-bridge": "^5.4",
-        "symfony/var-dumper": "^5.4",
-        "symfony/error-handler": "^4.4",
-        "justinrainbow/json-schema": "^5.2",
-        "symfony/filesystem": "^4.4",
-        "symfony/finder": "^4.4",
-        "symfony/lock": "^4.4",
-        "symfony/browser-kit": "^4.4",
-        "symfony/dom-crawler": "^4.4 !=4.4.5",
-        "easyrdf/easyrdf": "^0.9 || ^1.0"
+        "brianium/paratest": "^6.3",
+        "drupal/core-dev": "^9.3",
+        "mglaman/phpstan-drupal": "^1.1",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpstan/phpstan": "^1.5",
+        "phpstan/phpstan-deprecation-rules": "^1.0"
     },
-    "replace": {
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*"
+    "conflict": {
+        "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "preferred-install": "dist",
-        "autoloader-suffix": "Drupal9",
-        "platform": {
-            "php": "7.3.0"
-        },
+        "sort-packages": true,
+        "bin-dir": "bin/",
         "allow-plugins": {
             "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
-            "drupal/core-vendor-hardening": true
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "extra": {
-        "_readme": [
-            "By default Drupal loads the autoloader from ./vendor/autoload.php.",
-            "To change the autoloader you can edit ./autoload.php.",
-            "This file specifies the packages.drupal.org repository.",
-            "You can read more about this composer repository at:",
-            "https://www.drupal.org/node/2718229"
-        ],
+        "enable-patching": true,
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/sites/default/settings.php": {
+                    "mode": "replace",
+                    "path": "assets/composer/settings.php",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/settings.lando.php": {
+                    "mode": "replace",
+                    "path": "assets/composer/settings.lando.php",
+                    "overwrite": false
+                },
+                "[web-root]/sites/development.services.yml": "assets/composer/development.services.yml"
+            }
+        },
         "installer-paths": {
-            "core": ["type:drupal-core"],
-            "libraries/{$name}": ["type:drupal-library"],
-            "modules/contrib/{$name}": ["type:drupal-module"],
-            "profiles/contrib/{$name}": ["type:drupal-profile"],
-            "themes/contrib/{$name}": ["type:drupal-theme"],
+            "web/core": ["type:drupal-core"],
+            "web/libraries/{$name}": ["type:drupal-library" ],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
-            "modules/custom/{$name}": ["type:drupal-custom-module"],
-            "themes/custom/{$name}": ["type:drupal-custom-theme"]
-        },
-        "drupal-core-project-message": {
-            "post-install-cmd-message": [
-                "<bg=blue;fg=white>drupal/drupal</>: This package is meant for core development,",
-                "               and not intended to be used for production sites.",
-                "               See: https://www.drupal.org/node/3082474"
-            ],
-            "post-create-project-cmd-message": [
-                "<bg=red;fg=white>drupal/drupal</>: This package is meant for core development,",
-                "               and not intended to be used for production sites.",
-                "               See: https://www.drupal.org/node/3082474"
-            ]
+            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "web/themes/custom/{$name}": ["type:drupal-custom-theme" ]
         }
-    },
-    "autoload": {
-        "psr-4": {
-            "Drupal\\Core\\Composer\\": "core/lib/Drupal/Core/Composer"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Drupal\\Composer\\": "composer"
-        }
-    },
-    "scripts": {
-        "pre-install-cmd": "Drupal\\Composer\\Composer::ensureComposerVersion",
-        "pre-update-cmd": "Drupal\\Composer\\Composer::ensureComposerVersion",
-        "pre-autoload-dump": "Drupal\\Core\\Composer\\Composer::preAutoloadDump",
-        "drupal-phpunit-upgrade-check": "Drupal\\Core\\Composer\\Composer::upgradePHPUnit",
-        "drupal-phpunit-upgrade": [
-            "@composer update phpunit/phpunit --with-dependencies --no-progress",
-            "@composer require phpspec/prophecy-phpunit:^2 --no-progress"
-        ],
-        "post-update-cmd": [
-            "Drupal\\Composer\\Composer::generateMetapackages"
-        ],
-        "phpcs": "phpcs --standard=core/phpcs.xml.dist --runtime-set installed_paths $($COMPOSER_BINARY config vendor-dir)/drupal/coder/coder_sniffer --",
-        "phpcbf": "phpcbf --standard=core/phpcs.xml.dist --runtime-set installed_paths $($COMPOSER_BINARY config vendor-dir)/drupal/coder/coder_sniffer --"
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "core"
-        },
-        {
-            "type": "path",
-            "url": "composer/Plugin/ProjectMessage"
-        },
-        {
-            "type": "path",
-            "url": "composer/Plugin/VendorHardening"
-        },
-        {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        }
-    ]
+    }
 }
