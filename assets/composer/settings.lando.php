@@ -135,8 +135,8 @@ $settings['skip_permissions_hardening'] = TRUE;
  */
 $databases['default']['default'] = array (
   'database' => 'database',
-  'username' => 'drupal9',
-  'password' => 'drupal9',
+  'username' => 'database',
+  'password' => 'database',
   'host' => 'database',
   'port' => '3306',
   'driver' => 'mysql',
