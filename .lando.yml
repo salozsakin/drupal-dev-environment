@@ -13,8 +13,3 @@ services:
     type: phpmyadmin
     hosts:
       - database
-database:
-    creds:
-      user: database
-      password: database
-      database: database      
