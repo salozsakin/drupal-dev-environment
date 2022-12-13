@@ -8,7 +8,7 @@ tasks:
       lando composer require drush/drush
       lando composer install
       chmod ug+w -R /workspace/drupal-dev-environment/sites/default/
-      lando drush si -y --account-pass=admin --site-name='lando_drupal9' --db-url=mysql://drupal9:drupal9@database/drupal9 demo_umami
+      lando drush si localgov_microsites
     command: |
       # start a rebuild  with actual networking service (prebuild uses different)
       lando rebuild -y
